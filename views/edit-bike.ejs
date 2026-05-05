@@ -1,0 +1,101 @@
+<%- include('partials/header.ejs') %>
+<%- include('partials/navbar.ejs') %>
+
+<div class="container py-4" style="max-width: 640px;">
+    <a class="btn btn-secondary mb-3" href="/">
+        <i class="bi bi-arrow-left me-1"></i>Go Back
+    </a>
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+            <h3 class="fw-bold mb-3"><i class="bi bi-pencil-square me-2"></i>Edit Product</h3>
+            <hr>
+
+            <% if (message != '') { %>
+                <div class="alert alert-danger"><i class="bi bi-exclamation-circle me-2"></i><%= message %></div>
+            <% } %>
+
+            <% if (bike) { %>
+
+            <!-- Current Image Preview -->
+            <div class="text-center mb-3">
+                <img id="imagePreview"
+                     src="/assets/img/<%= bike.image %>"
+                     class="preview-img mx-auto d-block"
+                     style="max-height:160px;"
+                     alt="<%= bike.model %>"
+                     onerror="this.src='https://placehold.co/300x160?text=No+Image'">
+            </div>
+
+            <form method="post" enctype="multipart/form-data">
+                <input type="hidden" name="old_image" value="<%= bike.image %>">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Brand <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="brand" value="<%= bike.brand %>" required list="brandList">
+                        <datalist id="brandList">
+                            <option value="Honda">
+                            <option value="Yamaha">
+                            <option value="Kawasaki">
+                            <option value="Ducati">
+                            <option value="BMW">
+                            <option value="Triumph">
+                            <option value="KTM">
+                            <option value="Harley-Davidson">
+                        </datalist>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Model <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="model" value="<%= bike.model %>" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Engine CC <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" name="cc" value="<%= bike.cc %>" min="1" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Price (฿) <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" name="price" value="<%= bike.price %>" min="0" step="0.01" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Stock <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" name="stock" value="<%= bike.stock %>" min="0" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Slug <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="slug" value="<%= bike.slug %>" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Bike Image</label>
+                        <input type="file" class="form-control" name="image" accept="image/*" id="imageInput">
+                        <div class="form-text">ปล่อยว่างไว้ถ้าไม่ต้องการเปลี่ยนรูป</div>
+                    </div>
+                </div>
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-success px-4 fw-bold">
+                        <i class="bi bi-check-circle me-1"></i>Update Bike
+                    </button>
+                    <a href="/" class="btn btn-secondary px-4">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
+                    </a>
+                </div>
+            </form>
+
+            <% } else { %>
+                <p class="text-center text-muted">Bike not found.</p>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('imageInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+        document.getElementById('imagePreview').src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+});
+</script>
+
+<%- include('partials/footer.ejs') %>
