@@ -1,0 +1,17 @@
+{
+  "name": "bigbike-crud",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "dev": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-fileupload": "^1.5.1",
+    "mysql2": "^3.12.0",
+    "nodemon": "^3.1.9"
+  }
+}
