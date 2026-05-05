@@ -1,0 +1,96 @@
+<%- include('partials/header.ejs') %>
+<%- include('partials/navbar.ejs') %>
+
+<div class="container py-4" style="max-width: 640px;">
+    <a class="btn btn-secondary mb-3" href="/">
+        <i class="bi bi-arrow-left me-1"></i>Go Back
+    </a>
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+            <h3 class="fw-bold mb-3"><i class="bi bi-plus-circle me-2"></i>Add New Product</h3>
+            <hr>
+
+            <% if (message != '') { %>
+                <div class="alert alert-danger"><i class="bi bi-exclamation-circle me-2"></i><%= message %></div>
+            <% } %>
+
+            <!-- Image Preview -->
+            <div class="text-center mb-3">
+                <div id="previewPlaceholder" class="preview-img d-flex align-items-center justify-content-center flex-column text-muted mx-auto" style="height:160px; background:#f5f5f5;">
+                    <i class="bi bi-image" style="font-size:2.5rem;"></i>
+                    <span class="small mt-1">Image preview</span>
+                </div>
+                <img id="imagePreview" class="preview-img d-none mx-auto d-block" alt="Preview" style="max-height:160px;">
+            </div>
+
+            <form method="post" enctype="multipart/form-data">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Brand <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="brand" placeholder="e.g. Honda" required list="brandList">
+                        <datalist id="brandList">
+                            <option value="Honda">
+                            <option value="Yamaha">
+                            <option value="Kawasaki">
+                            <option value="Ducati">
+                            <option value="BMW">
+                            <option value="Triumph">
+                            <option value="KTM">
+                            <option value="Harley-Davidson">
+                        </datalist>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Model <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="model" placeholder="e.g. CBR650R" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Engine CC <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" name="cc" placeholder="e.g. 650" min="1" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Price (฿) <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" name="price" placeholder="e.g. 359000" min="0" step="0.01" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Stock <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" name="stock" placeholder="e.g. 10" min="0" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Slug <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="slug" placeholder="e.g. honda-cbr650r" required>
+                        <div class="form-text">ใช้ตัวพิมพ์เล็กและขีดกลาง เช่น honda-cbr650r</div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Bike Image <span class="text-danger">*</span></label>
+                        <input type="file" class="form-control" name="image" accept="image/*" required id="imageInput">
+                        <div class="form-text">รองรับ PNG, JPEG, GIF, WEBP (max 5MB)</div>
+                    </div>
+                </div>
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-success px-4 fw-bold">
+                        <i class="bi bi-check-circle me-1"></i>Add Bike
+                    </button>
+                    <a href="/" class="btn btn-secondary px-4">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('imageInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+        document.getElementById('imagePreview').src = ev.target.result;
+        document.getElementById('imagePreview').classList.remove('d-none');
+        document.getElementById('previewPlaceholder').classList.add('d-none');
+    };
+    reader.readAsDataURL(file);
+});
+</script>
+
+<%- include('partials/footer.ejs') %>
